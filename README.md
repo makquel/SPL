@@ -1,0 +1,4 @@
+SPL
+===
+
+Single layer perceptron
