@@ -8,7 +8,7 @@
 #include "./include/NEURON.h"
 #include <iostream>
 
-#define ENABLE_PERCEPTRON_LEARNING  0
+#define ENABLE_PERCEPTRON_LEARNING  1
 
 NEURON *neuronleft;
 NEURON *neuronright;
@@ -58,16 +58,10 @@ void Train_Perceptron (){
 	}
  int ls[Ni]={1,1,-1,-1,-1,-1,1,1,1,1,-1,-1,1,1,1,-1,1};
  int rs[Ni]={1,-1,-1,-1,1,1,1,1,-1,1,1,-1,-1,-1,1,1,-1};
+ 
  bool statul=neuronleft->TRAIN(examples,ls);
  bool statur=neuronright->TRAIN(examples,rs);
- Edit1->Text=neuronleft->W[0];
- Edit2->Text=neuronleft->W[1];
- Edit3->Text=neuronleft->W[2];
- Edit4->Text=neuronleft->W[3];
- Edit5->Text=neuronleft->W[4];
- Edit6->Text=neuronleft->W[5];
- Edit7->Text=neuronleft->W[6];
- Edit8->Text=neuronleft->W[7];
+ 
  if(statul==true&&statur==true)
  	std::cout << "NEURAL NET HYPOTHESIS Created!";
   else
@@ -81,10 +75,12 @@ int main(int argc, char **argv)
 	#if ENABLE_PERCEPTRON_LEARNING
 	neuronleft = new NEURON(Nd,Ni,1);
  	neuronright = new NEURON(Nd,Ni,1);
- 	examples = new int*[Nd];
+
+ 	examples = new int*[Nd]; //Allocate memory for instruction set
  	for(int g=0;g<Nd;g++){
  		examples[g]=new int[Ni];
  	}
+ 	Train_Perceptron ();
  	#endif
 	return 0;
 }

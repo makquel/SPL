@@ -1,22 +1,36 @@
-# Makefile for Writing Make Files Example
+CC = g++
+LD = g++
+LDFLAGS =
+CFLAGS = -O3 -Wall -lopengl32 -lglut32
+LIBS = -lGL -lGLU -lglut -lpthread
+OBJ = ./obj
+BIN = ./bin/SPL
+SRC = ./src
+INCLUDE = ./include
 
-# *****************************************************
-# Variables to control Makefile operation
+all : $(BIN)
+#all: SPL
+	@echo "*************************"
+	@echo "NEURAL-NET-HYPOTHESIS"
+	@echo	
+	@echo
+	@echo "Built ..."
+	@echo
+	@echo 
+	@echo "Done."
+	@echo "*************************"
 
-CXX = g++
-CXXFLAGS = -Wall -g
+$(BIN): $(OBJ)/PERCEPTRON_LEARNING.o $(OBJ)/NEURON.o
+	$(LD) $(LDFLAGS) $(LIBS) $(OBJ)/PERCEPTRON_LEARNING.o $(OBJ)/NEURON.o -o $(BIN) 
+ 
+$(OBJ)/PERCEPTRON_LEARNING.o: $(SRC)/PERCEPTRON_LEARNING.cpp
+	$(CC) $(CFLAGS) $(LIBS) -c $(SRC)/PERCEPTRON_LEARNING.cpp $(INCLUDE) -o $(OBJ)/PERCEPTRON_LEARNING.o 
 
-# ****************************************************
-# Targets needed to bring the executable up to date
+$(OBJ)/NEURON.o: $(SRC)/NEURON.cpp
+	$(CC) $(CFLAGS) $(LIBS) -c $(SRC)/NEURON.cpp $(INCLUDE) #-o $(OBJ)/NEURON.o 	
 
-SPL: ./obj/PERCEPTRON_LEARNING.o ./obj/NEURON.o 
-	$(CXX) $(CXXFLAGS) -o SPL ./obj/main.o ./obj/Point.o 
+.PHONY: clean   
 
-# The main.o target can be written more simply
+clean:
+	rm -rf ./obj/*.o ./bin/
 
-./obj/main.o: ./src/main.cpp ./include/NEURON.h
-	$(CXX) $(CXXFLAGS) -c main.cpp
-
-./obj/NEURON.o: NEURON.h ./include
-
-clean: rm -rf ./obj/*.o ./bin/
